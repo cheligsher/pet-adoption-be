@@ -4,12 +4,17 @@ const PORT = process.env.PORT || 8080;
 const data = require("./PetsDataSet.json")
 const usersRoute = require("./routes/usersRoute")
 const petsRoute = require("./routes/petsRoute")
+const cors = require("cors")
+const usersController = require("./controllers/usersController")
+app.use(cors());
 
 app.use('/user', usersRoute)
 app.use('/pet', petsRoute)
 
 
-app.post("/signup", (req, res) => {
+app.post("/signup", 
+// usersController.signup
+(req, res) => {
   res.send("signup post successful")
 })
 
