@@ -4,8 +4,19 @@ const loginSchema = {
     email: { type: 'string' },
     password: { type:'string' },
   },
-  required: ['name'],
+  required: ['email', 'password'],
   additionalProperties: false,
 }
 
-module.exports = { loginSchema };
+const signUpSchema = { 
+    type: 'object',
+    properties: {
+        email: { type:'string' },
+        phone: { type:'string' },
+        password: { type:'string' },
+        firstName: { type:'string' },
+        lastName: { type:'string' },
+    },
+    required: ['email', 'phone', 'password', 'firstName', 'lastName'],}
+
+module.exports = { loginSchema, signUpSchema };
