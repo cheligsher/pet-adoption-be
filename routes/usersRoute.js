@@ -4,6 +4,8 @@ const {
   passwordsMatch,
   isNewUser,
   hashPassword,
+  doesUserExist,
+  verifyPassword,
 } = require("../middleware/usersMiddleware");
 const { validateBody } = require("../middleware/validateBody");
 const { loginSchema, signUpSchema } = require("../schemas/usersSchema");
@@ -27,12 +29,9 @@ router.post(
 router.post(
   "/login",
   validateBody(loginSchema),
-  // doesUserExist,
-  // verify password
-  (req, res) => {
-    //model
-    res.send("login post successful");
-  }
+  doesUserExist,
+  verifyPassword,
+  usersController.login
 );
 
 router

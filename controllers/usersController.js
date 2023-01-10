@@ -18,4 +18,14 @@ const signUp = async (req, res) => {
     }
 }
 
-module.exports = {signUp}
+const login = async (req, res) => {
+    try{
+        const { user, token } = req.body;
+        res.send({firstName: user.firstName, token});
+          
+    } catch (err){
+        res.status(400).send(err)
+    }
+}
+
+module.exports = {signUp, login}

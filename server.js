@@ -13,6 +13,11 @@ app.use(cors());
 app.use("/user", usersRoute);
 app.use("/pet", petsRoute);
 
+app.get("*", (req, res) => {
+  // send back html error page
+  res.send("Page for error :)")
+})
+
 app.listen(PORT, () => {
   console.log(`App is Listening on port ${PORT}`);
 });
