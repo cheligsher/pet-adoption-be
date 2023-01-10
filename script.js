@@ -2,16 +2,13 @@ const mongoose = require("mongoose");
 const User = require("./mongoDB/user");
 const Pet = require("./mongoDB/pets");
 const dotenv = require("dotenv");
-dotenv.config({path: `.env`})
+dotenv.config({ path: `.env` });
 
 mongoose
-  .connect(
-    process.env.MONGO_URI,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then((x) => {
     console.log(
       `Connected to Mongo! Database name: "${x.connections[0].name}"`

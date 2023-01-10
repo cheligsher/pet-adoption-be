@@ -13,5 +13,5 @@ function validateBody(schema) {
 }
 
 module.exports = {
-  validateBody
+  validateBody,
 };

@@ -9,7 +9,7 @@ const {
 } = require("../middleware/usersMiddleware");
 const { validateBody } = require("../middleware/validateBody");
 const { loginSchema, signUpSchema } = require("../schemas/usersSchema");
-const usersController = require("../controllers/usersController")
+const usersController = require("../controllers/usersController");
 
 router.get("/", async (req, res) => {
   res.send("GET all users (admin only)");
@@ -42,7 +42,7 @@ router
   .put(async (req, res) => {
     res.send("Update user (logged in user only)");
     //logged in user only
-});
+  });
 
 router.get("/:id/full", async (req, res) => {
   res.send("GET user by id");
