@@ -1,12 +1,16 @@
 const express = require("express");
+const { auth } = require("../middleware/auth");
+const { getAllPets } = require("../models/petModels");
 const router = express.Router();
 
 router
   .route("/")
-  .post(async (req, res) => {
+  .post(auth, async (req, res) => {
+    req.body.userId;
     res.send("add pet (admin only)");
   })
   .get(async (req, res) => {
+    getAllPets()
     res.send("get pets");
   });
 
@@ -15,24 +19,24 @@ router
   .get(async (req, res) => {
     res.send("get pet by id");
   })
-  .put(async (req, res) => {
+  .put(auth, async (req, res) => {
     res.send("edit pet by id (admin only)");
   });
 
-router.post("/:id/adopt", async (req, res) => {
+router.post("/:id/adopt", auth, async (req, res) => {
   res.send("adopt/ foster (logged in user only)");
 });
 
-router.post("/:id/return", async (req, res) => {
+router.post("/:id/return", auth, async (req, res) => {
   res.send("return pet (logged in user only)");
 });
 
 router
   .route("/:id/save")
-  .post(async (req, res) => {
+  .post(auth, async (req, res) => {
     res.send("save pet (logged in user only)");
   })
-  .delete(async (req, res) => {
+  .delete(auth, async (req, res) => {
     res.send("delete saved pet (logged in user only)");
   });
 

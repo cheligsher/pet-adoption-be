@@ -12,6 +12,10 @@ const dbPet = new mongoose.Schema({
   hypoallergnic: Boolean,
   dietery: Array,
   breed: String,
+
 });
 
-module.exports = mongoose.model("pets", dbPet);
+const Pet = mongoose.model('Pet', dbPet)
+
+
+module.exports = Pet

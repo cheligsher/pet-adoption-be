@@ -6,6 +6,9 @@ const dbUser = new mongoose.Schema({
   password: String,
   firstName: String,
   lastName: String,
+  isAdmin: {type: Boolean, default: false}
 });
 
-module.exports = mongoose.model("users", dbUser);
+const User = mongoose.model("User", dbUser);
+
+module.exports = User

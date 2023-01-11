@@ -1,8 +1,4 @@
-let userCollection;
-
-const accessDB = (client) => {
-  userCollection = client.db("pet-adoption").collection("users")
-};
+const User = require('../mongoDB/user')
 
 const findUser = async (email) => {
   try{
@@ -14,7 +10,7 @@ const findUser = async (email) => {
 
 const getUserByEmail = async (email) => {
   try{
-    const user = await userCollection.findOne({email})
+    const user = await User.findOne({email})
     return user
   } catch (err){
       err.status = 401;
@@ -23,13 +19,13 @@ const getUserByEmail = async (email) => {
 };
 
 const addUser = async (newUser) => {
-  const user = await userCollection.insertOne(newUser)
+  const user = await User.create(newUser)
   return user
 };
 
 const getUserById = async (id) => {
-  const user = await userCollection.findOne({ _id : id})
+  const user = await User.findOne({ _id : id})
   return user
 }
 
-module.exports = { getUserByEmail, addUser, accessDB, findUser, getUserById };
+module.exports = { getUserByEmail, addUser, findUser, getUserById };
