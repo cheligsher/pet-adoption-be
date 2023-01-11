@@ -10,6 +10,7 @@ const {
 const { validateBody } = require("../middleware/validateBody");
 const { loginSchema, signUpSchema } = require("../schemas/usersSchema");
 const usersController = require("../controllers/usersController");
+const { getUserById } = require("../models/usersModels");
 
 router.get("/", async (req, res) => {
   res.send("GET all users (admin only)");
@@ -37,15 +38,20 @@ router.post(
 router
   .route("/:id")
   .get(async (req, res) => {
+    getUserById(req.params.id)
     res.send("GET user by id");
   })
   .put(async (req, res) => {
+    // if(email){
+
+    // }
     res.send("Update user (logged in user only)");
     //logged in user only
   });
 
 router.get("/:id/full", async (req, res) => {
   res.send("GET user by id");
+  //what's the diff between this and ^^
 });
 
 module.exports = router;

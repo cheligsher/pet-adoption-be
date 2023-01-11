@@ -4,19 +4,32 @@ const accessDB = (client) => {
   userCollection = client.db("pet-adoption").collection("users")
 };
 
+const findUser = async (email) => {
+  try{
+
+  } catch(err){
+    console.log(err)
+  }
+}
 
 const getUserByEmail = async (email) => {
-  // find if there is this email on the db
   try{
     const user = await userCollection.findOne({email})
     return user
   } catch (err){
-    console.log(err.message)
+      err.status = 401;
+      throw err;
   }
 };
 
-const signUpModel = (newUser) => {
-  // token?
+const addUser = async (newUser) => {
+  const user = await userCollection.insertOne(newUser)
+  return user
 };
 
-module.exports = { getUserByEmail, signUpModel, accessDB };
+const getUserById = async (id) => {
+  const user = await userCollection.findOne({ _id : id})
+  return user
+}
+
+module.exports = { getUserByEmail, addUser, accessDB, findUser, getUserById };

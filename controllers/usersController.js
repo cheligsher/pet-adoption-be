@@ -1,17 +1,19 @@
-const { signUpModel, getUserEmail } = require("../models/usersModels");
+const { addUser, getUserEmail } = require("../models/usersModels");
 
 const signUp = async (req, res) => {
+  if(!req.body.email) return res.status(400).send("Missing user email");
+  if(!(req.body.password.length > 5)) return res.status(400).send("Invalid password")
   try {
-    const { email, password, firstName } = req.body;
+    const { email, password, firstName, lastName, phone } = req.body;
     const newUser = {
       email,
       password,
       // password has now been hashed
       firstName,
+      lastName,
+      phone
     };
-    //addUser(req.body)
-    // add user with model to add to db
-    const userId = await signUpModel(newUser);
+    const userId = await addUser(newUser);
     res.send({ userId, email, firstName });
   } catch (err) {
     console.log(err);
@@ -36,8 +38,7 @@ const login = async (req, res) => {
       return res.status(401).send("Invalid credentials")
     }
   } catch (err) {
-    // res.status(400).send(err);
-    console.log(err)
+    res.status(400).send(err);
   }
 };
 
