@@ -1,4 +1,4 @@
-const { getUserEmail } = require("../models/usersModels");
+const { getUserByEmail } = require("../models/usersModels");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -11,6 +11,7 @@ const passwordsMatch = (req, res, next) => {
 };
 
 const isNewUser = async (req, res, next) => {
+  // getUserEmail --> fix
   const user = await getUserEmail(req.body.email);
   if (user) {
     res.status(400).send("This user already exists!");
@@ -30,6 +31,7 @@ const hashPassword = (req, res, next) => {
     next();
   });
 };
+
 //?
 const doesUserExist = async (req, res, next) => {
   // check if log in email = email on db (model)

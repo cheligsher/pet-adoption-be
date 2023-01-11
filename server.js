@@ -1,23 +1,15 @@
-const express = require("express");
-const app = express();
-const data = require("./PetsDataSet.json");
-const usersRoute = require("./routes/usersRoute");
-const petsRoute = require("./routes/petsRoute");
 const dotenv = require("dotenv");
 dotenv.config({ path: `.env` });
+const app = require("./index")
 const PORT = process.env.PORT;
-const cors = require("cors");
-app.use(express.json());
-app.use(cors());
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const { accessDB } = require("./models/usersModels");
+const uri = process.env.MONGO_URI;
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
-app.use("/user", usersRoute);
-app.use("/pet", petsRoute);
-
-app.get("*", (req, res) => {
-  // send back html error page
-  res.send("Page for error :)");
-});
-
-app.listen(PORT, () => {
-  console.log(`App is Listening on port ${PORT}`);
+client.connect().then(() => {
+  app.listen(PORT, () => {
+    accessDB(client)
+    console.log(`App is Listening on port ${PORT}`);
+  })
 });
