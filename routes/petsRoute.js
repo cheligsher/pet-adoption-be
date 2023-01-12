@@ -1,13 +1,16 @@
 const express = require("express");
 const { auth, checkIfAdmin } = require("../middleware/auth");
-const { getAllPets } = require("../models/petModels");
+const { getAllPets, addPet } = require("../models/petModels");
 const router = express.Router();
 
 router
   .route("/")
   .post(auth, checkIfAdmin, async (req, res) => {
-    req.body.userId;
-    res.send("add pet (admin only)");
+    console.log('first')
+    console.log(req.body)
+    const pet = await addPet(req.body)
+    console.log(req.body)
+    res.send(pet);
   })
   .get(async (req, res) => {
     getAllPets()

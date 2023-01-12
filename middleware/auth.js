@@ -20,7 +20,7 @@ const auth = (req, res, next) => {
 
   const checkIfAdmin = (req, res, next) => {
     // const isAdmin = req.body.isAdmin
-    console.log("req:", req.body)
+    next()
   }
   
 module.exports = { auth, checkIfAdmin }

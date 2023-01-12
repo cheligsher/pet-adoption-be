@@ -10,10 +10,11 @@ const dbPet = new mongoose.Schema({
   color: String,
   bio: String,
   hypoallergnic: Boolean,
-  dietery: Array,
   breed: String,
 
 });
+
+dbPet.add({ dietary: String });
 
 const Pet = mongoose.model('Pet', dbPet)
 
