@@ -1,11 +1,11 @@
 const express = require("express");
-const { auth } = require("../middleware/auth");
+const { auth, checkIfAdmin } = require("../middleware/auth");
 const { getAllPets } = require("../models/petModels");
 const router = express.Router();
 
 router
   .route("/")
-  .post(auth, async (req, res) => {
+  .post(auth, checkIfAdmin, async (req, res) => {
     req.body.userId;
     res.send("add pet (admin only)");
   })
@@ -19,7 +19,7 @@ router
   .get(async (req, res) => {
     res.send("get pet by id");
   })
-  .put(auth, async (req, res) => {
+  .put(auth, checkIfAdmin, async (req, res) => {
     res.send("edit pet by id (admin only)");
   });
 

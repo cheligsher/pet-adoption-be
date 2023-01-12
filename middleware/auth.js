@@ -17,5 +17,10 @@ const auth = (req, res, next) => {
       }
     });
   }
+
+  const checkIfAdmin = (req, res, next) => {
+    // const isAdmin = req.body.isAdmin
+    console.log("req:", req.body)
+  }
   
-module.exports = { auth }
+module.exports = { auth, checkIfAdmin }
