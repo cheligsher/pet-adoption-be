@@ -1,13 +1,31 @@
-const Pet = require("../mongoDB/pets")
-// async await, try catch and return var 
+const Pet = require("../mongoDB/pets");
+// async await, try catch and return var
 
 const addPet = async (newPet) => {
-    const pet = await Pet.create(newPet)
-    return pet
+  try {
+    const pet = await Pet.create(newPet);
+    return pet;
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+const getAllPets = async () => {
+  try {
+    const pets = await Pet.find({});
+    return pets;
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+const getPetById = async (id) => {
+  try{
+    const petId = await Pet.findById(id)
+    return petId
+  }catch (err){
+    console.log(err.message)
+  }
 }
 
-const getAllPets = () => {
-    Pet.find()
-}
-
-module.exports = { getAllPets, addPet }
+module.exports = { getAllPets, addPet, getPetById };
