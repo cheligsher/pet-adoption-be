@@ -1,5 +1,14 @@
 const User = require('../mongoDB/user')
 
+const getAllUsers = async() => {
+  try{
+    const allUsers = await User.find()
+    return allUsers
+  }catch(err){
+    console.log(err.message)
+  }
+}
+
 const findUser = async (email) => {
   try{
 
@@ -28,4 +37,4 @@ const getUserById = async (id) => {
   return user
 }
 
-module.exports = { getUserByEmail, addUser, findUser, getUserById };
+module.exports = { getUserByEmail, addUser, findUser, getUserById, getAllUsers };

@@ -10,10 +10,12 @@ const {
 const { validateBody } = require("../middleware/validateBody");
 const { loginSchema, signUpSchema } = require("../schemas/usersSchema");
 const usersController = require("../controllers/usersController");
-const { getUserById } = require("../models/usersModels");
+const { getUserById, getAllUsers } = require("../models/usersModels");
+const { auth, checkIfAdmin } = require("../middleware/auth");
 
-router.get("/", async (req, res) => {
-  res.send("GET all users (admin only)");
+router.get("/", auth, checkIfAdmin, async (req, res) => {
+  const allUsers = await getAllUsers()
+  res.send(allUsers);
   // admin only route!
   //fetch from db
 });
