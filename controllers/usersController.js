@@ -21,7 +21,7 @@ const signUp = async (req, res) => {
 const login = async (req, res) => {
   const { user, token } = req.body;
   try { 
-      res.send({token: token, userId: user._id})
+      res.send({token: token, userId: user._id, firstName: user.firstName, lastName: user.lastName})
     } catch (err) {
     res.status(500).send(err);
   }

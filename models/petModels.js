@@ -1,8 +1,10 @@
 const Pet = require("../mongoDB/pets");
+
 // async await, try catch and return var
 
 const addPet = async (newPet) => {
   try {
+    console.log("addPet")
     const pet = await Pet.create(newPet);
     return pet;
   } catch (err) {
@@ -21,8 +23,8 @@ const getAllPets = async () => {
 
 const getPetById = async (id) => {
   try{
-    const petId = await Pet.findById(id)
-    return petId
+    const pet = await Pet.findById(id)
+    return pet
   }catch (err){
     console.log(err.message)
   }

@@ -10,14 +10,13 @@ const {
 const { validateBody } = require("../middleware/validateBody");
 const { loginSchema, signUpSchema } = require("../schemas/usersSchema");
 const usersController = require("../controllers/usersController");
-const { getUserById, getAllUsers } = require("../models/usersModels");
+const { getUserById, getAllUsers, updateUser } = require("../models/usersModels");
 const { auth, checkIfAdmin } = require("../middleware/auth");
 
 router.get("/", auth, checkIfAdmin, async (req, res) => {
   const allUsers = await getAllUsers()
   res.send(allUsers);
   // admin only route!
-  //fetch from db
 });
 
 router.post(
@@ -40,15 +39,14 @@ router.post(
 router
   .route("/:id")
   .get(async (req, res) => {
-    getUserById(req.params.id)
-    res.send("GET user by id");
+    const userId = await getUserById(req.params.id)
+    res.send(userId);
+    
   })
-  .put(async (req, res) => {
-    // if(email){
-
-    // }
-    res.send("Update user (logged in user only)");
-    //logged in user only
+  .put(auth, async (req, res) => {
+    const userId = req.params.id
+    const updatedUser = await updateUser(req.body, userId)
+    res.send(updatedUser);
   });
 
 router.get("/:id/full", async (req, res) => {

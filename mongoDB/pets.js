@@ -11,6 +11,9 @@ const dbPet = new mongoose.Schema({
   bio: String,
   hypoallergnic: Boolean,
   breed: String,
+  adopted: String,
+  fostered: String,
+  saved: Array
 
 });
 
