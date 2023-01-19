@@ -6,7 +6,6 @@ const signUp = async (req, res) => {
     const newUser = {
       email,
       password,
-      // password has now been hashed
       firstName,
       lastName,
       phone

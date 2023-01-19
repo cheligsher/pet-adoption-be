@@ -16,7 +16,6 @@ const { auth, checkIfAdmin } = require("../middleware/auth");
 router.get("/", auth, checkIfAdmin, async (req, res) => {
   const allUsers = await getAllUsers()
   res.send(allUsers);
-  // admin only route!
 });
 
 router.post(
@@ -48,10 +47,5 @@ router
     const updatedUser = await updateUser(req.body, userId)
     res.send(updatedUser);
   });
-
-router.get("/:id/full", async (req, res) => {
-  res.send("GET user by id");
-  //what's the diff between this and ^^
-});
 
 module.exports = router;

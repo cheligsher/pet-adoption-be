@@ -1,7 +1,5 @@
 const Pet = require("../mongoDB/pets");
 
-// async await, try catch and return var
-
 const addPet = async (newPet) => {
   try {
     console.log("addPet")
