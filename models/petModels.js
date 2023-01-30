@@ -28,4 +28,23 @@ const getPetById = async (id) => {
   }
 }
 
-module.exports = { getAllPets, addPet, getPetById };
+const searchPets = async( typeOfPet ) => {
+  if (typeOfPet === "Other") {
+    try {
+      const pets  = await Pet.find({ type: {$nin : ["Dog", "Cat"]}})
+      console.log(pets)
+      return pets
+    } catch (err) {
+      console.log(err.message)
+    }
+  }
+  try {
+
+    const pets  = await Pet.find({ type: typeOfPet})
+    return pets
+  } catch (err) {
+    console.log(err.message)
+  }
+}
+
+module.exports = { getAllPets, addPet, getPetById, searchPets };

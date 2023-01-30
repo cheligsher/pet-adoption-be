@@ -95,6 +95,16 @@ const findPetsByUserId = async( userId) => {
   }
 }
 
+const returnPet = async(petId, userId) => {
+  // for adopted
+  try {
+    const pet = User.findByIdAndUpdate(userId, { $pull : {adopted: petId}})
+    return pet
+  } catch (err) {
+    console.log(err.message)
+  }
+}
+
 module.exports = {
   getUserByEmail,
   addUser,
@@ -105,5 +115,6 @@ module.exports = {
   adoptPet,
   fosterPet,
   isPetAdopted,
-  findPetsByUserId
+  findPetsByUserId,
+  returnPet
 };
