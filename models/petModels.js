@@ -10,6 +10,17 @@ const addPet = async (newPet) => {
   }
 };
 
+const updatePet = async (newPet, petId) => {
+  console.log(newPet, petId)
+  try {
+    const pet = await Pet.findOneAndUpdate(petId, newPet);
+    console.log("petABC", pet)
+    return pet;
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
 const getAllPets = async () => {
   try {
     const pets = await Pet.find({});
@@ -47,4 +58,4 @@ const searchPets = async( typeOfPet ) => {
   }
 }
 
-module.exports = { getAllPets, addPet, getPetById, searchPets };
+module.exports = { getAllPets, addPet, getPetById, searchPets, updatePet };

@@ -3,7 +3,7 @@ const { auth, checkIfAdmin } = require("../middleware/auth");
 const { upload, findFile } = require("../middleware/imagesMiddleware");
 const { checkIfCanAdopt } = require("../middleware/petsMiddleware");
 const { validateBody } = require("../middleware/validateBody");
-const { getAllPets, addPet, getPetById, searchPets } = require("../models/petModels");
+const { getAllPets, addPet, getPetById, searchPets, updatePet } = require("../models/petModels");
 const {
   getUserById,
   adoptPet,
@@ -24,7 +24,6 @@ router
     validateBody(addPetSchema),
     findFile,
     async (req, res) => {
-      console.log("controller");
       const pet = await addPet(req.body);
       res.send(pet);
     }
@@ -47,9 +46,19 @@ router
     const pet = await getPetById(petId);
     res.send(pet);
   })
-  .put(auth, checkIfAdmin, async (req, res) => {
-    res.send("edit pet by id (admin only)");
-  });
+  .put(
+    auth,
+    checkIfAdmin,
+    upload.single("picture"),
+    validateBody(addPetSchema),
+    findFile,
+    async(req, res) => {
+      const petId = req.params.id;
+      console.log(req.body)
+      const pet = await updatePet(req.body, petId);
+      res.send(pet)
+    }
+  );
 
 router.post("/:id/adopt", auth, checkIfCanAdopt, async (req, res) => {
   const petId = req.params.id;
@@ -87,10 +96,10 @@ router
 router.get(
   "/user/:id",
   auth,
-
   async (req, res) => {
     const userId = req.params.id;
     const pets = await findPetsByUserId(userId);
+    console.log(pets)
     res.send(pets);
   }
 );

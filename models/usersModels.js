@@ -88,7 +88,7 @@ const isPetAdopted = async(petId, userId) => {
 
 const findPetsByUserId = async( userId) => {
   try {
-    const pets = await User.findById(userId, { adopted: 1} )
+    const pets = await User.findById(userId, { adopted: 1, fostered: 1} )
     return pets
   } catch (err) {
     console.log(err.message)
@@ -98,7 +98,8 @@ const findPetsByUserId = async( userId) => {
 const returnPet = async(petId, userId) => {
   // for adopted
   try {
-    const pet = User.findByIdAndUpdate(userId, { $pull : {adopted: petId}})
+    const pet = await User.findByIdAndUpdate(userId, { $pull : {adopted: petId, fostered: petId}})
+    console.log("return pet", pet)
     return pet
   } catch (err) {
     console.log(err.message)
