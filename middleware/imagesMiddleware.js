@@ -24,13 +24,16 @@ const upload = multer({ storage: cloudStorage });
 const generateUrl = (req, res, next) => {
   const imageUrl = `http://localhost:8080/${req.file.filename}`;
   req.body.imageUrl = imageUrl;
-
+  console.log("imageUrl",req.body.imageUrl)
   next();
 };
 
 const findFile = (req, res, next) => {
-  console.log("findfile")
+  console.log("first", req.file)
+  console.log("second", req.body)
   if (req.file) {
+    console.log("reqFile-", req.file.path)
+    console.log("reqPic-", req.body.picture)
     req.body.picture = req.file.path;
   }
   next();

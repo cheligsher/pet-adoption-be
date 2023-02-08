@@ -79,7 +79,7 @@ const fosterPet = async (petId, user) => {
 
 const isPetAdopted = async(petId, userId) => {
  try {
-  const adoptedPet = await User.findById(userId, { adopted: petId})
+  const adoptedPet = await User.find({ adopted: petId})
   return adoptedPet
  } catch (err) {
   console.log(err.message)

@@ -24,6 +24,7 @@ router
     validateBody(addPetSchema),
     findFile,
     async (req, res) => {
+      console.log("gets to controller")
       const pet = await addPet(req.body);
       res.send(pet);
     }

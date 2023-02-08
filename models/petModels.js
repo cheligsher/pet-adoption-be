@@ -2,7 +2,6 @@ const Pet = require("../mongoDB/pets");
 
 const addPet = async (newPet) => {
   try {
-    console.log("addPet")
     const pet = await Pet.create(newPet);
     return pet;
   } catch (err) {
