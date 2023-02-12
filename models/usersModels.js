@@ -46,10 +46,15 @@ const getUserById = async (id) => {
 };
 
 const updateUser = async (updatedDetails, userId) => {
-
-  console.log(updatedDetails);
+  const newUsersDetails = {
+    firstName: updatedDetails.firstName,
+    lastName: updatedDetails.lastName,
+    email: updatedDetails.email,
+    phone: updatedDetails.phone,
+    password: updatedDetails.password,
+  };
   try {
-    const updatedUser = User.findByIdAndUpdate(userId, updatedDetails, {
+    const updatedUser =  await User.findByIdAndUpdate(userId, newUsersDetails, {
       upsert: false,
     });
     return updatedUser;
@@ -60,51 +65,61 @@ const updateUser = async (updatedDetails, userId) => {
 
 const adoptPet = async (petId, user) => {
   try {
-    const addPetToUser = await User.findByIdAndUpdate( user, { $push: {adopted: petId} }, {new: true})
-    console.log(addPetToUser)
-    return addPetToUser
+    const addPetToUser = await User.findByIdAndUpdate(
+      user,
+      { $push: { adopted: petId } },
+      { new: true }
+    );
+    console.log(addPetToUser);
+    return addPetToUser;
   } catch (err) {
-    console.log(err.message)
+    console.log(err.message);
   }
-}
+};
 
 const fosterPet = async (petId, user) => {
   try {
-    const addPetToUser = await User.findByIdAndUpdate( user, { $push: {fostered: petId} }, {new: true})
-    return addPetToUser
+    const addPetToUser = await User.findByIdAndUpdate(
+      user,
+      { $push: { fostered: petId } },
+      { new: true }
+    );
+    return addPetToUser;
   } catch (err) {
-    console.log(err.message)
+    console.log(err.message);
   }
-}
+};
 
-const isPetAdopted = async(petId, userId) => {
- try {
-  const adoptedPet = await User.find({ adopted: petId})
-  return adoptedPet
- } catch (err) {
-  console.log(err.message)
- }
-}
-
-const findPetsByUserId = async( userId) => {
+const isPetAdopted = async (petId, userId) => {
   try {
-    const pets = await User.findById(userId, { adopted: 1, fostered: 1} )
-    return pets
+    const adoptedPet = await User.find({ adopted: petId });
+    return adoptedPet;
   } catch (err) {
-    console.log(err.message)
+    console.log(err.message);
   }
-}
+};
 
-const returnPet = async(petId, userId) => {
+const findPetsByUserId = async (userId) => {
+  try {
+    const pets = await User.findById(userId, { adopted: 1, fostered: 1 });
+    return pets;
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+const returnPet = async (petId, userId) => {
   // for adopted
   try {
-    const pet = await User.findByIdAndUpdate(userId, { $pull : {adopted: petId, fostered: petId}})
-    console.log("return pet", pet)
-    return pet
+    const pet = await User.findByIdAndUpdate(userId, {
+      $pull: { adopted: petId, fostered: petId },
+    });
+    console.log("return pet", pet);
+    return pet;
   } catch (err) {
-    console.log(err.message)
+    console.log(err.message);
   }
-}
+};
 
 module.exports = {
   getUserByEmail,
@@ -117,5 +132,5 @@ module.exports = {
   fosterPet,
   isPetAdopted,
   findPetsByUserId,
-  returnPet
+  returnPet,
 };

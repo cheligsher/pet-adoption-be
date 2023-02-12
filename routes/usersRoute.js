@@ -1,4 +1,5 @@
 const express = require("express");
+const bcrypt = require("bcrypt");
 const router = express.Router();
 const {
   passwordsMatch,
@@ -10,11 +11,16 @@ const {
 const { validateBody } = require("../middleware/validateBody");
 const { loginSchema, signUpSchema } = require("../schemas/usersSchema");
 const usersController = require("../controllers/usersController");
-const { getUserById, getAllUsers, updateUser } = require("../models/usersModels");
+const {
+  getUserById,
+  getAllUsers,
+  updateUser,
+  getUserByEmail,
+} = require("../models/usersModels");
 const { auth, checkIfAdmin } = require("../middleware/auth");
 
 router.get("/", auth, checkIfAdmin, async (req, res) => {
-  const allUsers = await getAllUsers()
+  const allUsers = await getAllUsers();
   res.send(allUsers);
 });
 
@@ -38,14 +44,36 @@ router.post(
 router
   .route("/:id")
   .get(async (req, res) => {
-    const userId = await getUserById(req.params.id)
+    const userId = await getUserById(req.params.id);
     res.send(userId);
-    
   })
-  .put(auth, async (req, res) => {
-    const userId = req.params.id
-    const updatedUser = await updateUser(req.body, userId)
-    res.send(updatedUser);
+  .put(auth, doesUserExist, verifyPassword, async (req, res) => {
+    const userId = req.params.id;
+    const { password, newPassword, reNewPassword } = req.body;
+
+    if (!password || !newPassword || !reNewPassword) {
+      res.status(400).send("Please fill in all fields.");
+      return;
+    }
+    if (newPassword !== reNewPassword) {
+      res.status(400).send("New passwords do not match.");
+      return;
+    }
+    if (newPassword.length < 6 || reNewPassword.length < 6) {
+      res.status(400).send("Password should be at least six characters.");
+      return;
+    }
+    const saltRounds = 10;
+    bcrypt.hash(req.body.newPassword, saltRounds, async(err, hash) => {
+      if (err) {
+        res.status(500).send(err.message);
+        return;
+      }
+      req.body.password = hash;
+      const updatedUser = await updateUser(req.body, userId);
+      res.send(updatedUser);
+    });
+   
   });
 
 module.exports = router;

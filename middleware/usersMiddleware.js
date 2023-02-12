@@ -55,6 +55,23 @@ const verifyPassword = async (req, res, next) => {
         expiresIn: "2h",
       });
       req.body.token = token;
+      req.body.password = user.password
+      next();
+    } else {
+      res.status(400).send("Incorrect email or password");
+    }
+  });
+};
+
+const checkPassword = async (req, res, next) => {
+  const { user, password } = req.body;
+  bcrypt.compare(password, user.password, (err, result) => {
+    if (result) {
+      const token = jwt.sign({ id: user._id }, process.env.TOKEN_KEY, {
+        expiresIn: "2h",
+      });
+      req.body.token = token;
+      console.log("check pass result token")
       next();
     } else {
       res.status(400).send("Incorrect email or password");
@@ -68,4 +85,5 @@ module.exports = {
   hashPassword,
   doesUserExist,
   verifyPassword,
+  checkPassword
 };
